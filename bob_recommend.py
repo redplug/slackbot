@@ -32,6 +32,7 @@ try:
     print(resultList)
     # DB 에 저장된 rows 출력해보기
 
+
     for result in resultList:
         seq = result[0]  # seq
         title = result[1]  # title
