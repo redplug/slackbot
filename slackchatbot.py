@@ -49,7 +49,7 @@ app = Flask(__name__)
 
 
 def get_answer():
-    food = ['<https://map.naver.com/v5/entry/place/13172001?c=14143887.9251101,4509407.0234595,15,0,0,0,dh&placePath=%3Fentry=plt|*희래등*>', \
+    food = ['<https://map.naver.com/v5/search/%ED%9D%AC%EB%9E%98%EB%93%B1/place/31398765?c=14141304.0776130,4508977.3027141,13,0,0,0,dh|*희래등*>', \
         '<https://map.naver.com/v5/search/%EB%8C%80%EC%B9%98%EB%8F%99%20%EC%96%8C%EC%83%98%EA%B9%80%EB%B0%A5/place/1411505334?placeSearchOption=fromNxList=true%26noredirect=1%26entry=pll&c=14141012.6614427,4510515.5979084,13,0,0,0,dh&placePath=%2Fhome%3Fentry=pll|*얌샘*>', \
         '<https://map.naver.com/v5/search/%EB%8C%80%EC%B9%98%EB%8F%99%20%EB%B6%80%EC%82%B0%EC%95%84%EC%A7%80%EB%A7%A4/place/1161628944?c=14143649.7389185,4509919.6279535,15,0,0,0,dh|*부산아지매*>', \
         '<https://map.naver.com/v5/search/%EB%8C%80%EC%B9%98%EB%8F%99%20%EB%82%A8%EC%82%B0%EC%98%A5/place/20259836?c=14143649.7389185,4509919.6279535,15,0,0,0,dh|*남산옥*>', \
