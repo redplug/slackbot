@@ -10,7 +10,7 @@ dbpassword = os.environ.get('DATABASE_PASSWORD')
 config = {
     "user": dbid,
     "password": dbpassword,
-    "host": "ec2-15-164-98-119.ap-northeast-2.compute.amazonaws.com", #local
+    "host": "localhost", #local
     "database": "bob_db", #Database name
     "port": "3306" #port는 최초 설치 시 입력한 값(기본값은 3306)
 }
