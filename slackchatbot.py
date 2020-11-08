@@ -24,6 +24,8 @@ from selenium import webdriver
 
 from urlshort import url_short
 
+from bob_recommend import food_answer
+
 from selenium.webdriver.common.keys import Keys
 
 from selenium.webdriver.chrome.options import Options
@@ -181,7 +183,9 @@ def event_handler(event_type, slack_event, event_message):
 
             channel = slack_event["event"]["channel"]
 
-            foodanswer = get_answer()
+            #foodanswer = get_answer()
+
+            foodanswer = food_answer()
 
             slack.chat.post_message(channel, f"여울이의 추천메뉴는 {foodanswer[0]} 입니다. 월월")
 
