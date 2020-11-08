@@ -2,20 +2,20 @@
 
 import os
 
+import mysql.connector
 
 dbid = os.environ.get('DATABASE_ID')
 dbpassword = os.environ.get('DATABASE_PASSWORD')
 
-
-
-import mysql.connector
 config = {
     "user": dbid,
     "password": dbpassword,
-    "host": "127.0.0.1", #local
-    "database": "bob", #Database name
+    "host": "ec2-15-164-98-119.ap-northeast-2.compute.amazonaws.com", #local
+    "database": "bob_db", #Database name
     "port": "3306" #port는 최초 설치 시 입력한 값(기본값은 3306)
 }
+
+
 
 try:
 
@@ -24,7 +24,7 @@ try:
     # db select, insert, update, delete 작업 객체
     cursor = conn.cursor()
     # 실행할 select 문 구성
-    sql = "SELECT * FROM bob_db ORDER BY 1 DESC"
+    sql = "SELECT * FROM bob ORDER BY 1 DESC"
     # cursor 객체를 이용해서 수행한다.
     cursor.execute(sql)
     # select 된 결과 셋 얻어오기
@@ -34,11 +34,10 @@ try:
 
 
     for result in resultList:
-        seq = result[0]  # seq
-        title = result[1]  # title
-        content = result[2]  # content
-        info = "seq:{}, title :{}, content :{}".format(seq, title, content)
-
+        number = result[0]  # seq
+        name = result[1]  # title
+        url = result[2]  # content
+        info = "number:{}, name :{}, url :{}".format(number, name, url)
         print(info)
 
 except mysql.connector.Error as err:
