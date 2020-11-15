@@ -11,18 +11,10 @@ telegram_chatid = os.environ.get('TELEGRAM_CHATID')
 
 bot = telegram.Bot(token=telegram_token)
 
-print(telegram_chatid)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-req = requests.get('')
+req = requests.get('https://m.stock.naver.com/worldstock/index.html#/stock/TBC/total')
 req.encoding = 'utf-8'
 html = req.text
 soup = BeautifulSoup(html, 'html.parser')
-posts = soup.select('td > a')
-latest = posts[14].text
-href = posts[14].get('href')
-url = ''
-link = url + str(href)
 
 
 bot.sendMessage(chat_id=telegram_chatid, text='test')
