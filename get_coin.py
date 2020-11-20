@@ -13,5 +13,6 @@ def get_coin(coin):
         df = pyupbit.get_ohlcv(ticker, count=2, interval="day")
         df.drop(['volume', 'high', 'low'], axis=1, inplace=True)
         df['N'] = ['1', '2']
+        df['Date'] = df.index
         df.set_index('N', inplace=True)
         return df, price
