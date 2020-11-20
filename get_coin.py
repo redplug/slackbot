@@ -14,6 +14,4 @@ def get_coin(coin):
         df.drop(['volume', 'high', 'low'], axis=1, inplace=True)
         df['N'] = ['1', '2']
         df.set_index('N', inplace=True)
-        df['Date'] = df.index
-        df['Date'] = df['Date'].apply()
         return df, price
