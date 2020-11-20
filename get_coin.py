@@ -10,9 +10,10 @@ def get_coin(coin):
         coin = coin.replace(" ","")
         ticker = coin.replace("코인","")
         price = format(pyupbit.get_current_price(ticker), ',')
-        df = pyupbit.get_ohlcv(ticker, count=1, interval="day")
-        del df['volume']
-        # del df['low']
-        # del df['high']
+        df = pyupbit.get_ohlcv(ticker, count=2, interval="day")
+        df.drop(['volume', 'high', 'low'], axis=1, inplace=True)
+        df['N'] = ['1', '2']
+        df.set_index('N', inplace=True)
         df['Date'] = df.index
+        df['Date'] = df['Date'].apply()
         return df, price
