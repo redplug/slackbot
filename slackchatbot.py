@@ -182,7 +182,7 @@ def event_handler(event_type, slack_event, event_message):
             elif event_message != coin:
                 df, price = get_coin(event_message)
                 print(event_message)
-                print(df[["open","close"]].style.hide_index())
+                print(df[["open","close","Date"]].style.hide_index())
                 print(price)
                 username = '여울이COIN 알람'
                 icon_emoji = ':coin:'
