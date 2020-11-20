@@ -14,13 +14,14 @@ from bs4 import BeautifulSoup
 
 import string
 
-import pyupbit
-
 from selenium import webdriver
 
 from urlshort import url_short
 
 from bob_recommend import food_answer
+
+from get_coin import get_coin
+
 
 bob = "밥"
 
@@ -80,21 +81,6 @@ def get_covid():
 
     return coviddate, KoreaDailyCount, KoreaAccumulateCount
 
-# 코인 계산 함수
-def get_coin(coin):
-    if coin == None:
-        tickers = pyupbit.get_tickers()
-        return tickers
-    elif coin != None:
-        coin = coin.replace(" ","")
-        ticker = coin.replace("코인","")
-
-        price = pyupbit.get_current_price(ticker)
-        df = pyupbit.get_ohlcv(ticker, count=3, interval="day")
-        del df['volume']
-        df['Date'] = df.index
-        return df, price
-
 def _close_chrome(chrome: webdriver):
     """
     크롬 종료
@@ -104,29 +90,6 @@ def _close_chrome(chrome: webdriver):
     def close():
         chrome.close()
     return close
-
-# 환율 계산 함수
-# def currency_dollar_won(date):
-#     chrome_options = Options()
-#     chrome_options.add_argument('--headless')
-#     chrome_options.add_argument('--no-sandbox')
-#     chrome_options.add_argument('--disable-dev-shm-usage')
-#     driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver',chrome_options=chrome_options)
-#     driver.get('http://www.smbs.biz/ExRatePop/ExRateCalc.jsp')
-#     if date == None:
-#         pass
-#     # elif date != None:
-#     #     driver.find_element_by_id('searchDate').send_keys(Keys.CONTROL + "a");
-#     #     driver.find_element_by_id('searchDate').send_keys(Keys.DELETE);
-#     #     driver.find_element_by_name('searchDate').send_keys(date)
-#     #     driver.find_element_by_css_selector('a').send_keys('\n')
-#
-#     ##환율(원)
-#     currency_won = driver.find_element_by_xpath('//*[@id="tblRate"]/tbody/tr[1]/td[2]')
-#     print(f'currency_won : {currency_won.text}')
-#     atexit.register(_close_chrome(driver))
-#
-#     return currency_won
 
 # 이벤트 핸들하는 함수
 def event_handler(event_type, slack_event, event_message):
