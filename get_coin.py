@@ -15,4 +15,6 @@ def get_coin(coin):
         df['N'] = ['1', '2']
         df['Date'] = df.index
         df.set_index('N', inplace=True)
+        df["open"] = [format(df['open'][0], ','), format(df['open'][1], ',')]
+        df["close"] = [format(df['close'][0], ','), format(df['close'][1], ',')]
         return df, price
