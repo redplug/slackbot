@@ -21,6 +21,7 @@ def get_coin(coin):
         yesterdaylow = float(df['close'][0].replace(",", ""))
         pricefloat = float(pricelow)
         per = (pricefloat / yesterdaylow * 100) - 100
+        per = "%.2f%%" %per
         return df, price, per
 
 

@@ -189,7 +189,7 @@ def event_handler(event_type, slack_event, event_message):
                 attachement = {
                     'pretext': ':coin:여울이COIN 알람:coin:',
                     "fallback": "여울이COIN 알람",
-                    "text": f"현재가격은 : {price} {per}\n {df.to_string(index=False)}",
+                    "text": f"현재가격은 : {price} ({per})\n {df.to_string(index=False)}",
                     "fields": [
                         {
                             "value": "",
