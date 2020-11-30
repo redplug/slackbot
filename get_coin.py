@@ -23,6 +23,3 @@ def get_coin(coin):
         per = (pricefloat / yesterdaylow * 100) - 100
         per = "%.2f%%" %per
         return df, price, per
-
-
-get_coin("krw-btc")
