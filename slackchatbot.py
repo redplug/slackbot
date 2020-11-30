@@ -169,18 +169,16 @@ def event_handler(event_type, slack_event, event_message):
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
         elif event_message.find(coin) > -1:
-
             channel = slack_event["event"]["channel"]
             print(event_message.replace(" ",""))
             print(coin)
             print(type(event_message.replace(" ","")))
             print(type(coin))
             if event_message.replace(" ","") == coin:
-
                 tickers = pyupbit.get_tickers(fiat="KRW")
                 slack.chat.post_message(channel, f"티커리스트(KRW) : {tickers}")
             elif event_message != coin:
-                df, price = get_coin(event_message)
+                df, price, per = get_coin(event_message)
                 print(event_message)
                 print(df[["open","close","Date"]].style.hide_index())
                 print(price)
@@ -189,7 +187,7 @@ def event_handler(event_type, slack_event, event_message):
                 attachement = {
                     'pretext': ':coin:여울이COIN 알람:coin:',
                     "fallback": "여울이COIN 알람",
-                    "text": f"현재가격은 : {price}\n {df.to_string(index=False)}",
+                    "text": f"현재가격은 : {price} {per}\n {df.to_string(index=False)}",
                     "fields": [
                         {
                             "value": "",

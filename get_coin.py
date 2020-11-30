@@ -17,4 +17,10 @@ def get_coin(coin):
         df.set_index('N', inplace=True)
         df["open"] = [format(df['open'][0], ','), format(df['open'][1], ',')]
         df["close"] = [format(df['close'][0], ','), format(df['close'][1], ',')]
-        return df, price
+        yesterdaylow = float(df['close'][0].replace(",", ""))
+        pricefloat = float(pricelow)
+        per = (pricefloat / yesterdaylow * 100) - 100
+        return df, price, per
+
+
+get_coin("krw-btc")
