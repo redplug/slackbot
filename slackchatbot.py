@@ -22,6 +22,8 @@ from bob_recommend import food_answer
 
 from get_coin import get_coin
 
+import pyupbit
+
 
 bob = "밥"
 
