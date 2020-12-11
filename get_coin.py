@@ -4,8 +4,9 @@ import pyupbit
 
 def get_coin(coin):
     if coin == None:
-        tickers = pyupbit.get_tickers()
-        return tickers
+        pass
+        # tickers = pyupbit.get_tickers()
+        # return tickers
     elif coin != None:
         coin = coin.replace(" ","")
         ticker = coin.replace("코인","")
