@@ -1,74 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import os
-
 import json
-
 from slacker import Slacker
-
 from flask import Flask, request, make_response
-
-import requests
-
-from bs4 import BeautifulSoup
-
-import string
-
-from selenium import webdriver
-
 from urlshort import url_short
-
 from bob_recommend import food_answer
-
-from get_coin import get_coin
-
 from get_weather import get_weather
-
-import pyupbit
-
+from get_covid import get_covid
 import kimp
 
-bob = "밥"
-
-covid = "코로나"
-
-coin = "코인"
-
 currency = "환율"
-
-surl = "주소단축"
 
 slack = Slacker(os.environ.get('SLACK_BOT_TOKEN'))
 botid = os.environ.get('SLACK_BOT_ID')
 
 app = Flask(__name__)
-
-def get_covid():
-    req = requests.get(
-        'http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=11&ncvContSeq=&contSeq=&board_id=&gubun=')
-
-    html = req.text
-
-    soup = BeautifulSoup(html, 'html.parser')
-
-    coviddate = soup.select('div > h5 > span')[0].text.strip(string.punctuation)
-
-    KoreaDailyCount = soup.select('div > div > div > ul > li > dl > dd > ul > li > p')[0].text.strip(
-        string.punctuation).strip()
-
-    KoreaAccumulateCount = soup.select('div > div > div > ul > li > dl > dd')[0].text.strip(string.punctuation)
-
-    return coviddate, KoreaDailyCount, KoreaAccumulateCount
-
-def _close_chrome(chrome: webdriver):
-    """
-    크롬 종료
-
-    :param chrome: 크롬 드라이버 인스턴스
-    """
-    def close():
-        chrome.close()
-    return close
 
 # 이벤트 핸들하는 함수
 def event_handler(event_type, slack_event, event_message):
@@ -76,45 +23,29 @@ def event_handler(event_type, slack_event, event_message):
 
         print("여울이 이벤트 메세지 : " + event_message)
 
-        if event_message.find(bob) > -1:
+        # bob_recommand
+        if event_message.find("밥") > -1:
 
             channel = slack_event["event"]["channel"]
 
-            #foodanswer = get_answer()
-
-            foodanswer = food_answer()
-
-            #slack.chat.post_message(channel, f"여울이의 추천메뉴는 {foodanswer} 입니다. 월월")
+            #slack.chat.post_message(channel, f"여울이의 추천메뉴는 {food_answer()} 입니다. 월월")
 
             slack.chat.post_message(channel, f"여울이가 추천해줘도 안먹을꺼 잖아요...")
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
-        elif event_message.find(covid) > -1:
+        # covid check
+        elif event_message.find("코로나") > -1:
 
             channel = slack_event["event"]["channel"]
 
-            covid_date, covid_dailycount, covid_accumulatecount = get_covid()
+            attachements, username, icon_emoji = get_covid()
 
-            username = '여울이COVID19알람'
-            icon_emoji = ':nocovid19:'
-            attachement = {
-                'pretext': ':alert:여울이COVID-19 현황판:alert:',
-                "fallback": "여울이COVID-19 현황판",
-                "text": f"날짜             : {covid_date}\n 신규확진자 : {covid_dailycount}\n 누적확진자 : {covid_accumulatecount}",
-                "fields": [
-                    {
-                        "value": "",
-                        "short": False
-                    }
-                ],
-                "color": "good",
-            }
-
-            slack.chat.post_message(channel, attachments=[attachement], username=username, icon_emoji=icon_emoji)
+            slack.chat.post_message(channel, attachments=[attachements], username=username, icon_emoji=icon_emoji)
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
+        # weather check
         elif event_message.find("날씨") > -1:
 
             channel = slack_event["event"]["channel"]
@@ -125,44 +56,11 @@ def event_handler(event_type, slack_event, event_message):
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
-        elif event_message.find(coin) > -1:
-            channel = slack_event["event"]["channel"]
-            print(event_message.replace(" ",""))
-            print(coin)
-            print(type(event_message.replace(" ","")))
-            print(type(coin))
-            if event_message.replace(" ","") == coin:
-                tickers = pyupbit.get_tickers(fiat="KRW")
-                slack.chat.post_message(channel, f"티커리스트(KRW) : {tickers}")
-            elif event_message != coin:
-                df, price, per = get_coin(event_message)
-                print(event_message)
-                print(df[["open","close","Date"]].style.hide_index())
-                print(price)
-                username = '여울이COIN 알람'
-                icon_emoji = ':coin:'
-                attachement = {
-                    'pretext': ':coin:여울이COIN 알람:coin:',
-                    "fallback": "여울이COIN 알람",
-                    "text": f"현재가격은 : {price} ({per})\n {df.to_string(index=False)}",
-                    "fields": [
-                        {
-                            "value": "",
-                            "short": False
-                        }
-                    ],
-                    "color": "good",
-                }
-
-                slack.chat.post_message(channel, attachments=[attachement], username=username, icon_emoji=icon_emoji)
-
-            return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
-
-        elif event_message.find(surl) > -1:
+        #  url shortcut
+        elif event_message.find("주소단축") > -1:
             channel = slack_event["event"]["channel"]
             orignalurl = event_message.replace("주소단축 ","")
-            print(surl)
-            if event_message.replace(" ","") == surl:
+            if event_message.replace(" ","") == "주소단축":
                 slack.chat.post_message(channel, f"주소단축 뒤에 주소를 넣어주시면 여울이가 줄여줄게요")
 
             elif event_message != surl:
@@ -219,8 +117,6 @@ def hears():
 def hear():
     kimp_message = kimp.kimp()
     return kimp_message
-
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=8080)
