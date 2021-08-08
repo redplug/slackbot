@@ -5,10 +5,11 @@ import json
 from slacker import Slacker
 from flask import Flask, request, make_response
 from urlshort import url_short
-from bob_recommend import food_answer
 from get_weather import get_weather
 from get_covid import get_covid
 import kimp
+
+# from bob_recommend import food_answer
 
 currency = "환율"
 surl = "주소단축"

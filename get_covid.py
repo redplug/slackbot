@@ -18,6 +18,9 @@ def get_covid():
 
     KoreaAccumulateCount = soup.select('div > div > div > ul > li > dl > dd')[0].text.strip(string.punctuation)
 
+    print(KoreaDailyCount)
+    print(KoreaAccumulateCount)
+
     username = '여울이COVID19알람'
     icon_emoji = ':nocovid19:'
     attachements = {
@@ -36,10 +39,10 @@ def get_covid():
     }
 
 
-    return attachements, username, icon_emoji, KoreaDailyCount, KoreaAccumulateCount
+    return attachements, username, icon_emoji
 
 
 if __name__ == '__main__':
-    print(get_covid()[0])
-    print(get_covid()[1])
-    print(get_covid()[2])
+    test1,test2,test3 = get_covid()
+    print(test1)
+
