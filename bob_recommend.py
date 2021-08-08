@@ -2,7 +2,7 @@
 
 import os
 
-import mysql.connector
+import pymysql
 
 import random
 
@@ -14,13 +14,12 @@ def food_answer():
         "user": dbid,
         "password": dbpassword,
         "host": "localhost", #local
-        "database": "bob_db", #Database name
-        "port": "3306" #port는 최초 설치 시 입력한 값(기본값은 3306)
+        "database": "bob", #Database name
     }
 
     try:
 
-        conn = mysql.connector.connect(**config)
+        conn = pymysql.connect(**config)
         print(conn)
         # db select, insert, update, delete 작업 객체
         cursor = conn.cursor()
@@ -39,6 +38,6 @@ def food_answer():
         result = f"<{resultList[0][1]}|*{resultList[0][0]}*>"
         return result
 
-    except mysql.connector.Error as err:
+    except pymysql.connect.Error as err:
 
         print(err)

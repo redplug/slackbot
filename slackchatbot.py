@@ -24,6 +24,7 @@ from get_coin import get_coin
 
 import pyupbit
 
+import kimp
 
 bob = "밥"
 
@@ -107,7 +108,9 @@ def event_handler(event_type, slack_event, event_message):
 
             foodanswer = food_answer()
 
-            slack.chat.post_message(channel, f"여울이의 추천메뉴는 {foodanswer} 입니다. 월월")
+            #slack.chat.post_message(channel, f"여울이의 추천메뉴는 {foodanswer} 입니다. 월월")
+
+            slack.chat.post_message(channel, f"여울이가 추천해줘도 안먹을꺼 잖아요...")
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
@@ -259,6 +262,12 @@ def hears():
         return event_handler(event_type, slack_event, event_message)
 
     return make_response("슬랙 요청에 이벤트가 없습니다.", 404, {"X-Slack-No-Retry": 1})
+
+@app.route("/kimp")
+def hear():
+    kimp_message = kimp.kimp()
+    return kimp_message
+
 
 
 if __name__ == '__main__':
