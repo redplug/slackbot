@@ -24,3 +24,6 @@ def get_coin(coin):
         per = (pricefloat / yesterdaylow * 100) - 100
         per = "%.2f%%" %per
         return df, price, per
+
+if __name__ == '__main__':
+    print('im main')
