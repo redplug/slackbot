@@ -11,7 +11,7 @@ from get_covid import get_covid
 import kimp
 
 currency = "환율"
-
+surl = "주소단축"
 slack = Slacker(os.environ.get('SLACK_BOT_TOKEN'))
 botid = os.environ.get('SLACK_BOT_ID')
 
@@ -40,6 +40,9 @@ def event_handler(event_type, slack_event, event_message):
             channel = slack_event["event"]["channel"]
 
             attachements, username, icon_emoji = get_covid()
+            print(attachements)
+            print(username)
+            print(icon_emoji)
 
             slack.chat.post_message(channel, attachments=[attachements], username=username, icon_emoji=icon_emoji)
 
