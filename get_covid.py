@@ -26,9 +26,9 @@ def get_covid():
     attachements = {
         'pretext': ':alert:여울이COVID-19 현황판:alert:',
         "fallback": "여울이COVID-19 현황판",
-        "text": f"날짜             : {covid_date}\n \
-                    신규확진자 : {KoreaDailyCount}\n \
-                    누적확진자 : {KoreaAccumulateCount}",
+        "text": f"날짜 : {covid_date}\n" \
+                f"신규확진자 : {KoreaDailyCount}\n" \
+                f"누적확진자 : {KoreaAccumulateCount}",
         "fields": [
             {
                 "value": "",
