@@ -22,6 +22,8 @@ from bob_recommend import food_answer
 
 from get_coin import get_coin
 
+from get_weather import get_weather
+
 import pyupbit
 
 import kimp
@@ -29,8 +31,6 @@ import kimp
 bob = "밥"
 
 covid = "코로나"
-
-weather = "날씨"
 
 coin = "코인"
 
@@ -139,37 +139,13 @@ def event_handler(event_type, slack_event, event_message):
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
-        elif event_message.find(weather) > -1:
+        elif event_message.find("날씨") > -1:
 
             channel = slack_event["event"]["channel"]
 
-            find_address, find_currenttemp, find_dust, find_ultra_dust, find_temp, find_low_temp, find_high_temp, find_windchill = get_weather()
+            attachements, username, icon_emoji = get_weather()
 
-            username = '여울이 Weather'
-            icon_emoji = ':sun_with_face:'
-            attachement = {
-                'pretext': ':sun_with_face:여울이의 날씨알람:sun_with_face:',
-                "fallback": "여울이 Weather",
-                "text": f" \n \
-                {find_address}의 날씨정보 입니다.\n \
-현재 날씨 : {find_temp}℃\n \
-현재 온도 : {find_currenttemp}℃\n \
-최저 기온 : {find_low_temp}℃\n \
-최고 기온 : {find_high_temp}℃\n \
-체감 온도 : {find_windchill}℃\n \
-미세 먼지 : {find_dust}\n \
-초미세 먼지 : {find_ultra_dust} \
-",
-                "fields": [
-                    {
-                        "value": "",
-                        "short": False
-                    }
-                ],
-                "color": "good",
-            }
-
-            slack.chat.post_message(channel, attachments=[attachement], username=username, icon_emoji=icon_emoji)
+            slack.chat.post_message(channel, attachments=[attachements], username=username, icon_emoji=icon_emoji)
 
             return make_response("앱 멘션 메시지가 보내졌습니다.", 200, )
 
