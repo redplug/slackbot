@@ -43,30 +43,6 @@ botid = os.environ.get('SLACK_BOT_ID')
 
 app = Flask(__name__)
 
-def get_weather():
-    location = "대치동"
-    html = requests.get(f'https://search.naver.com/search.naver?query={location}날씨')
-
-    soup = BeautifulSoup(html.text, 'html.parser')
-
-    data1 = soup.find('div', {'class': 'weather_box'})
-    find_address = data1.find('span', {'class': 'btn_select'}).text
-    find_currenttemp = data1.find('span', {'class': 'todaytemp'}).text
-
-    data2 = data1.findAll('dd')
-    find_dust = data2[0].find('span', {'class': 'num'}).text
-    find_ultra_dust = data2[1].find('span', {'class': 'num'}).text
-    find_temp = soup.select('div > div > div > div > div > ul > li > p')[0].text
-    find_low_temp = soup.select('div > div > ul > li > span > span > span')[0].text
-    find_high_temp = soup.select('div > div > ul > li > span > span > span')[1].text
-    find_windchill = soup.select('div > div > ul > li > span > em > span')[0].text
-
-    return find_address, find_currenttemp, find_dust, find_ultra_dust, find_temp, find_low_temp, find_high_temp, find_windchill
-
-
-find_address, find_currenttemp, find_dust, find_ultra_dust, find_temp, find_low_temp, find_high_temp, find_windchill = get_weather()
-
-
 def get_covid():
     req = requests.get(
         'http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=11&ncvContSeq=&contSeq=&board_id=&gubun=')
